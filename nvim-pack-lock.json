@@ -1,0 +1,73 @@
+{
+  "plugins": {
+    "blink.cmp": {
+      "rev": "cc8c9b7",
+      "src": "https://github.com/saghen/blink.cmp"
+    },
+    "copilot-cmp": {
+      "rev": "15fc12a",
+      "src": "https://github.com/zbirenbaum/copilot-cmp"
+    },
+    "copilot.lua": {
+      "rev": "92e08cd",
+      "src": "https://github.com/zbirenbaum/copilot.lua"
+    },
+    "dashboard-nvim": {
+      "rev": "0775e56",
+      "src": "https://github.com/nvimdev/dashboard-nvim"
+    },
+    "fff.nvim": {
+      "rev": "2df0628",
+      "src": "https://github.com/dmtrKovalenko/fff.nvim"
+    },
+    "gruvbox.nvim": {
+      "rev": "5e0a460",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
+    },
+    "lazygit.nvim": {
+      "rev": "2305dee",
+      "src": "https://github.com/kdheepak/lazygit.nvim"
+    },
+    "mini.files": {
+      "rev": "51db5de",
+      "src": "https://github.com/echasnovski/mini.files"
+    },
+    "mini.pairs": {
+      "rev": "b9aada8",
+      "src": "https://github.com/echasnovski/mini.pairs"
+    },
+    "mini.pick": {
+      "rev": "96ee37d",
+      "src": "https://github.com/echasnovski/mini.pick"
+    },
+    "neo-tree.nvim": {
+      "rev": "4c60a19",
+      "src": "https://github.com/nvim-neo-tree/neo-tree.nvim",
+      "version": "3.0.0 - 4.0.0"
+    },
+    "nui.nvim": {
+      "rev": "de74099",
+      "src": "https://github.com/MunifTanjim/nui.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "ac98db2",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-web-devicons": {
+      "rev": "b8221e4",
+      "src": "https://github.com/nvim-tree/nvim-web-devicons"
+    },
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "tiny-inline-diagnostic.nvim": {
+      "rev": "6d8dc61",
+      "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
+    },
+    "trouble.nvim": {
+      "rev": "c098362",
+      "src": "https://github.com/folke/trouble.nvim"
+    }
+  }
+}

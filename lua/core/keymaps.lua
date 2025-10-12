@@ -13,6 +13,9 @@ v.keymap.set("n", "<leader>fb", ":Pick buffers<CR>")
 
 -- format current buffer
 v.keymap.set("n", "<leader>lf", v.lsp.buf.format)
+v.keymap.set("n", "<leader>e", function()
+	require("oil").open_float()
+end)
 
 
 -- lsp keymaps
@@ -26,3 +29,27 @@ v.keymap.set("n", "<leader>rn", v.lsp.buf.rename)
 -- both leader ca and la for code action cause i use la but i should use ca
 v.keymap.set("n", "<leader>ca", v.lsp.buf.code_action)
 v.keymap.set("n", "<leader>la", v.lsp.buf.code_action)
+
+-- Helper function to close all listed buffers
+local function close_all_buffers()
+	for _, bufnr in ipairs(v.api.nvim_list_bufs()) do
+		if v.api.nvim_buf_is_loaded(bufnr) and v.bo[bufnr].buflisted then
+			v.cmd("bd " .. bufnr)
+		end
+	end
+end
+
+-- Helper to close all but the current buffer
+local function close_all_but_current()
+	local current = v.api.nvim_get_current_buf()
+	for _, bufnr in ipairs(v.api.nvim_list_bufs()) do
+		if bufnr ~= current and v.api.nvim_buf_is_loaded(bufnr) and v.bo[bufnr].buflisted then
+			v.cmd("bd " .. bufnr)
+		end
+	end
+end
+
+-- 🧠 Keymaps
+v.keymap.set("n", "bc", "<cmd>bd<CR>", { desc = "Close current buffer" })
+v.keymap.set("n", "bcc", close_all_buffers, { desc = "Close all buffers" })
+v.keymap.set("n", "bc1", close_all_but_current, { desc = "Close all but current buffer" })

@@ -1,13 +1,12 @@
 -- Basic vim settings
 
 require("core.opts")
-require("core.keymaps")
+
 
 local v = vim
 
 -- Plugins with native package manager
 v.pack.add({
-	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/saghen/blink.cmp", },
 	{ src = "https://github.com/zbirenbaum/copilot.lua" },
@@ -20,17 +19,78 @@ v.pack.add({
 	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "https://github.com/dmtrKovalenko/fff.nvim" },
 	{ src = "https://github.com/folke/snacks.nvim" },
-	{ src = "https://github.com/nvim-mini/mini.icons" }
+	{ src = "https://github.com/nvim-mini/mini.icons" },
+	{ src = "https://github.com/stevearc/oil.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.tabline" },
 })
 
-require("mini.icons").setup()
+-- Add colorschemes
+v.pack.add({
+	{ src = "https://github.com/ellisonleao/gruvbox.nvim" },
+	{ src = "https://github.com/catppuccin/nvim",         name = "catppuccin" },
+	{ src = "https://github.com/rose-pine/neovim",        name = "rose-pine" },
+	{ src = "https://github.com/rebelot/kanagawa.nvim" },
+	{ src = "https://github.com/folke/tokyonight.nvim" },
+	{ src = "https://github.com/AlexvZyl/nordic.nvim" },
+	{ src = "https://github.com/EdenEast/nightfox.nvim" },
+})
 
-require("configuration.snacks")
-local Snacks = require("snacks")
-vim.keymap.set("n", "<leader>e", function()
-	Snacks.explorer()
-end)
-vim.keymap.set("n", "<leader>h", function() Snacks.dashboard() end)
+local schemes = {
+	"catppuccin",
+	"rose-pine",
+	"kanagawa",
+	"tokyonight",
+	"nordic",
+	"nightfox",
+	"gruvbox",
+}
+
+-- set colorscheme
+v.cmd("colorscheme " .. schemes[7])
+
+require("mini.icons").setup()
+require('mini.tabline').setup()
+-- require("configuration.snacks")
+-- local Snacks = require("snacks")
+-- vim.keymap.set("n", "<leader>e", function()
+-- 	Snacks.explorer()
+-- end)
+-- vim.keymap.set("n", "<leader>h", function() Snacks.dashboard() end)
+
+require("oil").setup({
+	default_file_explorer = true,
+	keymaps = {
+		["q"] = "actions.close",
+		["esc"] = "actions.close",
+		["<leader>e"] = "actions.close",
+		["<BS>"] = "actions.parent",
+		["<leader><BS>"] = "actions.parent",
+		["h"] = "actions.parent",
+		["l"] = "actions.select",
+		["<CR>"] = "actions.select",
+		["<leader>r"] = "actions.refresh",
+		["gr"] = "actions.refresh",
+		["<leader>."] = "actions.toggle_hidden",
+	},
+	view_options = {
+		show_hidden = true,
+		highlight_opened_files = "name"
+	},
+	lsp_file_methods = {
+		enabled = true,
+		timeout_ms = 1000,
+	},
+	columns = {
+		"icon",
+	},
+	float = {
+		padding = 2,
+		border = "rounded",
+		max_width = 0.5,
+		max_height = 0.5,
+	},
+	open = "float",
+})
 
 v.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
@@ -149,5 +209,27 @@ end
 -- Example if using statusline
 v.o.statusline = "%f %m %r %h %= %{%v:lua.LspStatus()%} %l:%c"
 
--- set colorscheme
-v.cmd("colorscheme gruvbox")
+
+
+
+v.api.nvim_create_autocmd("BufEnter", {
+	callback = function()
+		local bufnr = v.api.nvim_get_current_buf()
+		local bufname = v.api.nvim_buf_get_name(bufnr)
+		local buftype = v.api.nvim_buf_get_option(bufnr, "buftype")
+		if bufname ~= "" and buftype == "" then
+			for _, b in ipairs(v.api.nvim_list_bufs()) do
+				if v.api.nvim_buf_is_loaded(b)
+						and v.bo[b].buflisted
+						and b ~= bufnr
+						and v.api.nvim_buf_get_name(b) == "" then
+					v.cmd("bd " .. b)
+				end
+			end
+		end
+	end,
+})
+
+
+
+require("core.keymaps")

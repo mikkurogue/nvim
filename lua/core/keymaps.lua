@@ -7,10 +7,8 @@ v.keymap.set('n', '<leader>w', ':write<CR>')
 v.keymap.set('n', '<leader>q', ':quit<CR>')
 v.keymap.set('n', '<leader>db', ':Alpha<CR>')
 
-v.keymap.set("n", "G", ":LazyGit<CR>")
-
-v.keymap.set("n", "g", function()
-    require('telescope.builtin').live_grep()
+v.keymap.set("n", "<leader>g", function()
+	require('telescope.builtin').live_grep()
 end)
 
 -- trigger lazygit

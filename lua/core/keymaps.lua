@@ -17,6 +17,8 @@ v.keymap.set("n", "<leader>e", function()
 	require("oil").open_float()
 end)
 
+v.keymap.set("n", "<leader>tf", ":ToggleTerm<CR>")
+
 
 -- lsp keymaps
 v.keymap.set("n", "gd", v.lsp.buf.definition)

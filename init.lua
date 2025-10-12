@@ -21,6 +21,9 @@ v.pack.add({
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.tabline" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/akinsho/toggleterm.nvim" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
 
 -- Add colorschemes
@@ -124,6 +127,9 @@ v.keymap.set(
 -- Load plugins with custom  config
 require("configuration.blink-cmp")
 require("configuration.conform")
+require("configuration.treesitter")
+require("configuration.gitsigns")
+require("configuration.toggleterm")
 
 require("mini.pick").setup()
 require("mini.pairs").setup()

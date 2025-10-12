@@ -1,0 +1,12 @@
+local v = vim
+v.o.number = true
+v.o.relativenumber = true
+v.o.signcolumn = "yes"
+v.o.wrap = false
+v.o.tabstop = 2
+v.o.swapfile = false
+v.o.winborder = "rounded"
+v.o.laststatus = 3
+v.o.clipboard = "unnamedplus"
+v.o.updatetime = 50 -- milliseconds
+v.diagnostic.config({ virtual_text = false })

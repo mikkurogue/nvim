@@ -1,38 +1,9 @@
 -- Basic vim settings
+
+require("core.opts")
+require("core.keymaps")
+
 local v = vim
-v.o.number = true
-v.o.relativenumber = true
-v.o.signcolumn = "yes"
-v.o.wrap = false
-v.o.tabstop = 2
-v.o.swapfile = false
-v.o.winborder = "rounded"
-v.o.laststatus = 3
-v.o.clipboard = "unnamedplus"
-v.o.updatetime = 50 -- milliseconds
--- v.diagnostic.config({ virtual_text = true })
-
-local ns = v.api.nvim_create_namespace("cursor_diagnostics")
-
-local function show_cursor_diagnostics()
-	local bufnr = v.api.nvim_get_current_buf()
-	local line = v.api.nvim_win_get_cursor(0)[1] - 1 -- 0-indexed
-	v.diagnostic.hide(bufnr, ns)
-	v.diagnostic.show(ns, bufnr, v.diagnostic.get(bufnr, { lnum = line }), { virtual_text = true })
-end
-
-v.api.nvim_create_autocmd({ "CursorHold", "CursorMoved" }, {
-	callback = show_cursor_diagnostics
-})
-
--- Basic keymaps vim specific
-v.g.mapleader = " "
-v.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
-v.keymap.set('n', '<leader>w', ':write<CR>')
-v.keymap.set('n', '<leader>q', ':quit<CR>')
-
--- toggle the dashboard
-v.keymap.set('n', '<leader>h', ':Dashboard<CR>')
 
 -- Plugins with native package manager
 v.pack.add({
@@ -40,149 +11,83 @@ v.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/saghen/blink.cmp", },
 	{ src = "https://github.com/zbirenbaum/copilot.lua" },
-	{ src = "https://github.com/kdheepak/lazygit.nvim"},
+	{ src = "https://github.com/kdheepak/lazygit.nvim" },
 	{ src = "https://github.com/echasnovski/mini.pick" },
 	{ src = "https://github.com/echasnovski/mini.pairs" },
 	{ src = "https://github.com/echasnovski/mini.files" },
-	{ src = "https://github.com/nvim-neo-tree/neo-tree.nvim", version = v.version.range('3') },
-	-- dependencies for neotree
-	"https://github.com/nvim-lua/plenary.nvim",
-	"https://github.com/MunifTanjim/nui.nvim",
-	-- optional, but recommended for neotree
-	"https://github.com/nvim-tree/nvim-web-devicons",
-	{
-		src = "https://github.com/folke/trouble.nvim",
-	},
-	{ src = "https://github.com/nvimdev/dashboard-nvim" }
+	{ src = "https://github.com/folke/trouble.nvim" },
+	{ src = "https://github.com/stevearc/conform.nvim" },
+	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
+	{ src = "https://github.com/dmtrKovalenko/fff.nvim" },
+	{ src = "https://github.com/folke/snacks.nvim" },
+	{ src = "https://github.com/nvim-mini/mini.icons" }
 })
 
-v.keymap.set("n", "<leader>gg", ":LazyGit<CR>")
+require("mini.icons").setup()
 
--- trouble config
-v.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { silent = true, noremap = true })
+require("configuration.snacks")
+local Snacks = require("snacks")
+vim.keymap.set("n", "<leader>e", function()
+	Snacks.explorer()
+end)
+vim.keymap.set("n", "<leader>h", function() Snacks.dashboard() end)
+
+v.api.nvim_create_autocmd("PackChanged", {
+	callback = function(ev)
+		local spec = ev.data.spec
+		if spec and spec.name == "fff.nvim" and ev.data.kind == "install" or ev.data.kind == "update" then
+			local fff_path = v.fn.stdpath("data") .. "/site/pack/core/opt/fff.nvim"
+			v.fn.jobstart({ "cargo", "build", "--release" }, {
+				cwd = fff_path,
+				on_exit = function(_, code)
+					if code == 0 then
+						v.notify("Cargo build finished successfully in " .. fff_path,
+							v.log.levels.INFO)
+					else
+						v.notify("Cargo build failed with exit code " .. code, v.log.levels
+							.ERROR)
+					end
+				end,
+			})
+		end
+	end,
+})
+
+-- the plugin will automatically lazy load
+v.g.fff = {
+	lazy_sync = true, -- start syncing only when the picker is open
+	debug = {
+		enabled = true,
+		show_scores = true,
+	},
+}
+
+v.keymap.set(
+	'n',
+	'ff',
+	function() require('fff').find_files() end,
+	{ desc = 'FFFind files' }
+)
+
+-- Load plugins with custom  config
+require("configuration.blink-cmp")
+require("configuration.conform")
 
 require("mini.pick").setup()
 require("mini.pairs").setup()
-
-require("dashboard").setup({
-	theme = "doom",
-	config = {
-		center = {
-			{
-				icon = ' ',
-				icon_hl = 'Title',
-				desc = 'Find File           ',
-				desc_hl = 'String',
-				key = 'f',
-				keymap = 'SPC f f',
-				key_hl = 'Number',
-				key_format = ' %s', -- remove default surrounding `[]`
-			},
-			{
-				icon = ' ',
-				desc = 'Check open buffers',
-				key = 'b',
-				keymap = 'SPC f b',
-				key_format = ' %s', -- remove default surrounding `[]`
-			},
-		},
-	}
+-- Diagnostics UI
+require("tiny-inline-diagnostic").setup({
+	preset = "powerline"
 })
 
-require("neo-tree").setup({
-	window = {
-		position = "left",
-		width = 30,
-		mappings = {
-			["l"] = "open", -- vim-style open
-			["<CR>"] = "open",
-			["h"] = "close_node", -- close folder
-			["H"] = "close_all_nodes",
-			["v"] = "open_vsplit", -- open in vertical split
-			["s"] = "open_split", -- open in horizontal split
-			["R"] = "refresh", -- refresh tree
-			["a"] = "add", -- add file/folder
-			["d"] = "delete", -- delete file/folder
-			["r"] = "rename", -- rename file/folder
-			["y"] = "copy_to_clipboard",
-			["x"] = "cut_to_clipboard",
-			["p"] = "paste_from_clipboard",
-			["q"] = "close_window", -- close neotree
-		},
-	},
-
-})
-
-v.keymap.set("n", "<leader>e", ":Neotree toggle<CR>")
-v.keymap.set("n", "<leader>ff", ":Pick files<CR>")
-v.keymap.set("n", "<leader>fb", ":Pick buffers<CR>")
-
--- COPILOT CORE
-require("copilot").setup({
-	suggestion = {
-		enabled = true, -- enable ghost text
-		auto_trigger = true, -- show suggestions automatically
-		keymap = {
-			accept = "<C-J>", -- accept suggestion
-			accept_line = false,
-		},
-	},
-	panel = { enabled = false },
-})
-
-
--- BLINK CONFIG (load AFTER copilot_cmp.setup)
-require("blink.cmp").setup({
-	sources = {
-		default = {
-			'lsp', 'path', 'buffer', 'snippets'
-		}
-	},
-	keymap = {
-		["<CR>"] = { "accept", "fallback" },
-		["<Tab>"] = {
-			"select_next",
-			"fallback",
-		},
-		["<S-Tab>"] = {
-			"select_prev",
-			"snippet_backward",
-			"fallback",
-		},
-		["<C-j>"] = {
-			"accept",
-			function() -- Then try copilot if visible
-				local ok, copilot = pcall(require, "copilot.suggestion")
-				if ok and copilot.is_visible() then
-					copilot.accept()
-					return true -- stop the chain
-				end
-			end,
-			"snippet_forward", -- Try snippet forward
-			"fallback", -- Finally fallback to default behavior
-		},
-	},
-	completion = {
-		list = {
-			selection = {
-				preselect = true,
-				auto_insert = true,
-			}
-		},
-	},
-	appearance = {
-		use_nvim_cmp_as_default = false,
-	},
-})
+v.keymap.set("n", "<leader>xx", function() require("trouble").toggle("diagnostics") end,
+	{ desc = "Toggle Trouble diagnostics" })
 
 -- LSP configurations
 local capabilities = require("blink.cmp").get_lsp_capabilities(v.lsp.protocol.make_client_capabilities())
 v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "vtsls" }, {
 	capabilities = capabilities
 })
-
--- format kb wit leader lf
-v.keymap.set("n", "<leader>lf", v.lsp.buf.format)
 
 -- Format on save with lsp configuration
 local fmt_grp = v.api.nvim_create_augroup("LspFormatOnSave", { clear = true })
@@ -227,19 +132,6 @@ v.api.nvim_create_autocmd("LspProgress", {
 		end
 	end,
 })
-
--- lsp keymaps
-v.keymap.set("n", "gd", v.lsp.buf.definition)
-v.keymap.set("n", "gD", v.lsp.buf.declaration)
-v.keymap.set("n", "gr", v.lsp.buf.references)
-v.keymap.set("n", "gi", v.lsp.buf.implementation)
-v.keymap.set("n", "K", v.lsp.buf.hover)
-v.keymap.set("n", "<C-k>", v.lsp.buf.signature_help)
-v.keymap.set("n", "<leader>rn", v.lsp.buf.rename)
--- both leader ca and la for code action cause i use la but i should use ca
-v.keymap.set("n", "<leader>ca", v.lsp.buf.code_action)
-v.keymap.set("n", "<leader>la", v.lsp.buf.code_action)
-
 -- show lsp that is attached to buffer
 function _G.LspStatus()
 	local bufnr = v.api.nvim_get_current_buf()

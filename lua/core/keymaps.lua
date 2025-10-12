@@ -5,6 +5,13 @@ v.g.mapleader = " "
 v.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
 v.keymap.set('n', '<leader>w', ':write<CR>')
 v.keymap.set('n', '<leader>q', ':quit<CR>')
+v.keymap.set('n', '<leader>db', ':Alpha<CR>')
+
+v.keymap.set("n", "G", ":LazyGit<CR>")
+
+v.keymap.set("n", "g", function()
+    require('telescope.builtin').live_grep()
+end)
 
 -- trigger lazygit
 v.keymap.set("n", "<leader>gg", ":LazyGit<CR>")

@@ -18,7 +18,6 @@ v.pack.add({
 	{ src = "https://github.com/stevearc/conform.nvim" },
 	{ src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
 	{ src = "https://github.com/dmtrKovalenko/fff.nvim" },
-	{ src = "https://github.com/folke/snacks.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.icons" },
 	{ src = "https://github.com/stevearc/oil.nvim" },
 	{ src = "https://github.com/nvim-mini/mini.tabline" },
@@ -50,13 +49,6 @@ v.cmd("colorscheme " .. schemes[7])
 
 require("mini.icons").setup()
 require('mini.tabline').setup()
--- require("configuration.snacks")
--- local Snacks = require("snacks")
--- vim.keymap.set("n", "<leader>e", function()
--- 	Snacks.explorer()
--- end)
--- vim.keymap.set("n", "<leader>h", function() Snacks.dashboard() end)
-
 require("oil").setup({
 	default_file_explorer = true,
 	keymaps = {

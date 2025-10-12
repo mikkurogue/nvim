@@ -28,6 +28,10 @@
       "rev": "2df0628",
       "src": "https://github.com/dmtrKovalenko/fff.nvim"
     },
+    "fidget.nvim": {
+      "rev": "3f54759",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "1ee5c1f",
       "src": "https://github.com/lewis6991/gitsigns.nvim"

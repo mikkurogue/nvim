@@ -92,7 +92,7 @@
       "rev": "72a04c4",
       "src": "https://github.com/rose-pine/neovim"
     },
-       "tiny-inline-diagnostic.nvim": {
+    "tiny-inline-diagnostic.nvim": {
       "rev": "6d8dc61",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     },

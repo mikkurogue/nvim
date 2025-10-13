@@ -29,6 +29,13 @@ end)
 v.keymap.set("n", "<leader>tf", ":ToggleTerm<CR>")
 
 
+v.keymap.set("n", "<leader>xx", function() 
+  require("trouble").toggle("diagnostics")
+end,
+{ desc = "Toggle Trouble diagnostics" }
+)
+
+
 -- lsp keymaps
 v.keymap.set("n", "gd", v.lsp.buf.definition)
 v.keymap.set("n", "gD", v.lsp.buf.declaration)

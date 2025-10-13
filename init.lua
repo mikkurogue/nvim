@@ -181,8 +181,9 @@ end
 -- Example if using statusline
 v.o.statusline = "%f %m %r %h %= %{%v:lua.LspStatus()%} %l:%c"
 
-
-
+require("tiny-inline-diagnostic").setup({
+	preset = "powerline"
+})
 
 v.api.nvim_create_autocmd("BufEnter", {
 	callback = function()

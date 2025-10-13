@@ -26,8 +26,6 @@ v.pack.add({
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/j-hui/fidget.nvim", name = "fidget.nvim" },
 	{ src = "https://github.com/goolord/alpha-nvim" },
-	{ src = "https://github.com/nvim-lua/plenary.nvim" },
-	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 })
 
 -- Add colorschemes
@@ -112,10 +110,11 @@ v.api.nvim_create_autocmd("PackChanged", {
 	end,
 })
 
--- the plugin will automatically lazy load
-v.g.fff = {
-	lazy_sync = true, -- start syncing only when the picker is open
-}
+-- -- the plugin will automatically lazy load
+-- v.g.fff = {
+--
+-- 	lazy_sync = true, -- start syncing only when the picker is open
+-- }
 
 v.keymap.set(
 	'n',
@@ -165,7 +164,6 @@ require("configuration.gitsigns")
 require("configuration.toggleterm")
 require("configuration.fidget")
 require("configuration.alpha")
-require("configuration.telescope")
 -- show lsp that is attached to buffer
 function _G.LspStatus()
 	local bufnr = v.api.nvim_get_current_buf()

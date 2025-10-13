@@ -1,4 +1,4 @@
-local v = vim
+local v = vim 
 
 -- Basic keymaps vim specific
 v.g.mapleader = " "
@@ -7,14 +7,18 @@ v.keymap.set('n', '<leader>w', ':write<CR>')
 v.keymap.set('n', '<leader>q', ':quit<CR>')
 v.keymap.set('n', '<leader>db', ':Alpha<CR>')
 
-v.keymap.set("n", "<leader>fw", function()
-	require('telescope.builtin').live_grep()
-end)
+-- v.keymap.set("n", "<leader>fw", function()
+-- 	require('telescope.builtin').live_grep()
+-- end)
 
 -- trigger lazygit
 v.keymap.set("n", "<leader>gg", ":LazyGit<CR>")
 -- mini file picker toggles
-v.keymap.set("n", "<leader>fb", ":Pick buffers<CR>")
+v.keymap.set("n", "<leader>fb", require("mini.pick").builtin.buffers)
+
+v.keymap.set("n", "<leader>fw", function()
+  require("mini.pick").builtin.grep_live({tool = "rg",})
+end)
 
 -- format current buffer
 v.keymap.set("n", "<leader>lf", v.lsp.buf.format)

@@ -88,16 +88,11 @@
       "rev": "919e155",
       "src": "https://github.com/stevearc/oil.nvim"
     },
-    "plenary.nvim": [],
     "rose-pine": {
       "rev": "72a04c4",
       "src": "https://github.com/rose-pine/neovim"
     },
-    "telescope.nvim": {
-      "rev": "b4da76b",
-      "src": "https://github.com/nvim-telescope/telescope.nvim"
-    },
-    "tiny-inline-diagnostic.nvim": {
+       "tiny-inline-diagnostic.nvim": {
       "rev": "6d8dc61",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
     },

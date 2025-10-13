@@ -7,7 +7,7 @@ v.keymap.set('n', '<leader>w', ':write<CR>')
 v.keymap.set('n', '<leader>q', ':quit<CR>')
 v.keymap.set('n', '<leader>db', ':Alpha<CR>')
 
-v.keymap.set("n", "<leader>g", function()
+v.keymap.set("n", "<leader>fw", function()
 	require('telescope.builtin').live_grep()
 end)
 

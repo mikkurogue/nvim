@@ -115,10 +115,6 @@ v.api.nvim_create_autocmd("PackChanged", {
 -- the plugin will automatically lazy load
 v.g.fff = {
 	lazy_sync = true, -- start syncing only when the picker is open
-	debug = {
-		enabled = true,
-		show_scores = true,
-	},
 }
 
 v.keymap.set(

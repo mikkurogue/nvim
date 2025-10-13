@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "actions-preview.nvim": {
+      "rev": "cb938c2",
+      "src": "https://github.com/aznhe21/actions-preview.nvim"
+    },
     "alpha-nvim": {
       "rev": "2b3cbcd",
       "src": "https://github.com/goolord/alpha-nvim"
@@ -24,6 +28,10 @@
       "rev": "92e08cd",
       "src": "https://github.com/zbirenbaum/copilot.lua"
     },
+    "darkmatter-nvim": {
+      "rev": "5663ddc",
+      "src": "https://github.com/stevedylandev/darkmatter-nvim"
+    },
     "fff.nvim": {
       "rev": "2df0628",
       "src": "https://github.com/dmtrKovalenko/fff.nvim"
@@ -47,6 +55,10 @@
     "lazygit.nvim": {
       "rev": "2305dee",
       "src": "https://github.com/kdheepak/lazygit.nvim"
+    },
+    "matteblack.nvim": {
+      "rev": "3bfd406",
+      "src": "https://github.com/tahayvr/matteblack.nvim"
     },
     "mini.files": {
       "rev": "51db5de",

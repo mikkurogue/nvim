@@ -21,9 +21,22 @@ v.o.foldenable = true                            -- make sure folds are enabled
 v.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folding
 v.o.foldcolumn = "auto:1"
 v.o.foldmethod = "expr"                          -- folding, set to "expr" for treesitter based folding
-v.o.foldtext = ""
 v.o.foldlevel = 99
 
 v.o.ignorecase = true
 v.o.incsearch = true
 v.o.hlsearch = true
+
+-- highlight on yank
+v.api.nvim_create_autocmd("TextYankPost", {
+  group = v.api.nvim_create_augroup("HighlightYank", {
+    clear = true
+  }),
+  pattern = "*",
+  callback = function()
+    v.highlight.on_yank({
+      higroup = "IncSearch",
+      timeout = 200
+    })
+  end
+})

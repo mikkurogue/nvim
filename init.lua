@@ -25,6 +25,7 @@ v.pack.add({
   { src = "https://github.com/j-hui/fidget.nvim",                     name = "fidget.nvim" },
   { src = "https://github.com/goolord/alpha-nvim" },
   { src = "https://github.com/aznhe21/actions-preview.nvim" },
+  { src = "https://github.com/folke/persistence.nvim",                event = "BufReadPre" },
 })
 
 -- Add colorschemes
@@ -59,6 +60,7 @@ require("mini.icons").setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
 require('actions-preview').setup()
+require('persistence').setup()
 require("oil").setup({
   default_file_explorer = true,
   keymaps = {
@@ -183,8 +185,28 @@ function _G.LspStatus()
   return '  ' .. table.concat(names, ', ')
 end
 
+-- get current git branch
+function _G.GitBranch()
+  -- check if gitsigns has set the branch name
+  if v.b.gitsigns_head then
+    return ' ' .. v.b.gitsigns_head
+  end
+
+  -- fallback: try running `git` directly
+  local handle = io.popen('git rev-parse --abbrev-ref HEAD 2>/dev/null')
+  if not handle then
+    return ''
+  end
+  local branch = handle:read('*l')
+  handle:close()
+  if branch and branch ~= '' then
+    return ' ' .. branch
+  end
+  return ''
+end
+
 -- Example if using statusline
-v.o.statusline = "%f %m %r %h %= %{%v:lua.LspStatus()%} %l:%c"
+v.o.statusline = "%f %m %r %h %{%v:lua.GitBranch()%} %= %{%v:lua.LspStatus()%} %l:%c"
 
 require("tiny-inline-diagnostic").setup({
   preset = "powerline"

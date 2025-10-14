@@ -100,6 +100,10 @@
       "rev": "919e155",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "persistence.nvim": {
+      "rev": "51eef57",
+      "src": "https://github.com/folke/persistence.nvim"
+    },
     "rose-pine": {
       "rev": "72a04c4",
       "src": "https://github.com/rose-pine/neovim"

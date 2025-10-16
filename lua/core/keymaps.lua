@@ -16,12 +16,19 @@ v.keymap.set("n", "<Esc>", ":noh<CR>", {
 
 -- trigger lazygit
 v.keymap.set("n", "<leader>gg", ":LazyGit<CR>")
--- mini file picker toggles
-v.keymap.set("n", "<leader>fb", require("mini.pick").builtin.buffers)
+
+-- Telescope keymaps
+v.keymap.set("n", "<leader>fb", function()
+  require("telescope.builtin").buffers()
+end, { desc = "Find buffers" })
 
 v.keymap.set("n", "<leader>fw", function()
-  require("mini.pick").builtin.grep_live({ tool = "rg", })
-end)
+  require("telescope.builtin").live_grep()
+end, { desc = "Live grep with ripgrep" })
+
+v.keymap.set("n", "<leader>ff", function()
+  require("telescope.builtin").find_files()
+end, { desc = "Find files" })
 
 -- format current buffer
 v.keymap.set("n", "<leader>lf", v.lsp.buf.format)

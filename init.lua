@@ -9,7 +9,8 @@ v.pack.add({
   { src = "https://github.com/saghen/blink.cmp", },
   { src = "https://github.com/zbirenbaum/copilot.lua" },
   { src = "https://github.com/kdheepak/lazygit.nvim" },
-  { src = "https://github.com/echasnovski/mini.pick" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/echasnovski/mini.pairs" },
   { src = "https://github.com/echasnovski/mini.files" },
   { src = "https://github.com/folke/trouble.nvim" },
@@ -26,6 +27,8 @@ v.pack.add({
   { src = "https://github.com/goolord/alpha-nvim" },
   { src = "https://github.com/aznhe21/actions-preview.nvim" },
   { src = "https://github.com/folke/persistence.nvim",                event = "BufReadPre" },
+  { src = "https://github.com/ziglang/zig.vim" },
+  { src = "https://github.com/folke/todo-comments.nvim" }
 })
 
 -- Add colorschemes
@@ -56,6 +59,7 @@ local schemes = {
 -- set colorscheme
 v.cmd("colorscheme " .. schemes[7])
 
+require("todo-comments").setup()
 require("mini.icons").setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
@@ -126,8 +130,8 @@ v.api.nvim_create_autocmd("PackChanged", {
 v.keymap.set(
   'n',
   'ff',
-  function() require('fff').find_files() end,
-  { desc = 'FFFind files' }
+  function() require("telescope.builtin").find_files() end,
+  { desc = 'Telescope find files' }
 )
 
 -- Load plugins with custom  config
@@ -160,7 +164,7 @@ local function on_lsp_exit(code, signal, client_id)
   end
 end
 
-v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "vtsls" }, {
+v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "ts_ls", "gopls", "zls" }, {
   capabilities = capabilities,
   on_exit = on_lsp_exit,
 })
@@ -171,6 +175,7 @@ require("configuration.gitsigns")
 require("configuration.toggleterm")
 require("configuration.fidget")
 require("configuration.alpha")
+require("configuration.telescope")
 -- show lsp that is attached to buffer
 function _G.LspStatus()
   local bufnr = v.api.nvim_get_current_buf()
@@ -178,11 +183,23 @@ function _G.LspStatus()
   if #clients == 0 then
     return ''
   end
+
+  local icons = {
+    rust_analyzer = '',
+    go = '',
+    vtsls = '',
+    ts_ls = '',
+    lua_ls = '',
+    biome = '󰐅',
+    zls = '',
+  }
+
   local names = {}
   for _, c in ipairs(clients) do
-    table.insert(names, c.name)
+    local icon = icons[c.name] or ''
+    table.insert(names, icon .. ' ' .. c.name)
   end
-  return '  ' .. table.concat(names, ', ')
+  return table.concat(names, ', ')
 end
 
 -- get current git branch

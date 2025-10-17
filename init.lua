@@ -5,6 +5,8 @@ local v = vim
 
 -- Plugins with native package manager
 v.pack.add({
+  { src = "https://github.com/nvim-lualine/lualine.nvim" },
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/saghen/blink.cmp", },
   { src = "https://github.com/zbirenbaum/copilot.lua" },
@@ -24,11 +26,13 @@ v.pack.add({
   { src = "https://github.com/akinsho/toggleterm.nvim" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
   { src = "https://github.com/j-hui/fidget.nvim",                     name = "fidget.nvim" },
-  { src = "https://github.com/goolord/alpha-nvim" },
-  { src = "https://github.com/aznhe21/actions-preview.nvim" },
   { src = "https://github.com/folke/persistence.nvim",                event = "BufReadPre" },
   { src = "https://github.com/ziglang/zig.vim" },
-  { src = "https://github.com/folke/todo-comments.nvim" }
+  { src = "https://github.com/folke/todo-comments.nvim" },
+  { src = "https://github.com/folke/noice.nvim" },
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
+  { src = "https://github.com/rcarriga/nvim-notify" },
+  { src = "https://github.com/doums/suit.nvim" },
 })
 
 -- Add colorschemes
@@ -42,62 +46,6 @@ v.pack.add({
   { src = "https://github.com/EdenEast/nightfox.nvim" },
   { src = "https://github.com/tahayvr/matteblack.nvim" },
   { src = "https://github.com/stevedylandev/darkmatter-nvim" },
-})
-
-local schemes = {
-  "catppuccin",
-  "rose-pine",
-  "kanagawa",
-  "tokyonight",
-  "nordic",
-  "nightfox",
-  "gruvbox",
-  "matteblack",
-  "darkmatter",
-}
-
--- set colorscheme
-v.cmd("colorscheme " .. schemes[7])
-
-require("todo-comments").setup()
-require("mini.icons").setup()
-require('mini.tabline').setup()
-require('mini.pairs').setup()
-require('actions-preview').setup()
-require('persistence').setup()
-require("oil").setup({
-  default_file_explorer = true,
-  keymaps = {
-    ["q"] = "actions.close",
-    ["esc"] = "actions.close",
-    ["<leader>e"] = "actions.close",
-    ["<BS>"] = "actions.parent",
-    ["<leader><BS>"] = "actions.parent",
-    ["h"] = "actions.parent",
-    ["l"] = "actions.select",
-    ["<CR>"] = "actions.select",
-    ["<leader>r"] = "actions.refresh",
-    ["gr"] = "actions.refresh",
-    ["<leader>."] = "actions.toggle_hidden",
-  },
-  view_options = {
-    show_hidden = true,
-    highlight_opened_files = "name"
-  },
-  lsp_file_methods = {
-    enabled = true,
-    timeout_ms = 1000,
-  },
-  columns = {
-    "icon",
-  },
-  float = {
-    padding = 2,
-    border = "rounded",
-    max_width = 0.5,
-    max_height = 0.5,
-  },
-  open = "float",
 })
 
 v.api.nvim_create_autocmd("PackChanged", {
@@ -121,86 +69,38 @@ v.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
--- -- the plugin will automatically lazy load
--- v.g.fff = {
---
--- 	lazy_sync = true, -- start syncing only when the picker is open
--- }
+local schemes = {
+  "catppuccin",
+  "rose-pine",
+  "kanagawa",
+  "tokyonight",
+  "nordic",
+  "nightfox",
+  "gruvbox",
+  "matteblack",
+  "darkmatter",
+}
 
-v.keymap.set(
-  'n',
-  'ff',
-  function() require("telescope.builtin").find_files() end,
-  { desc = 'Telescope find files' }
-)
+-- set colorscheme
+v.cmd("colorscheme " .. schemes[7])
 
--- Load plugins with custom  config
--- LSP configurations
-local capabilities = require("blink.cmp").get_lsp_capabilities(v.lsp.protocol.make_client_capabilities())
-
-local function on_lsp_exit(code, signal, client_id)
-  local client = v.lsp.get_client_by_id(client_id)
-  if not client then return end
-
-  -- Don't show message on normal exit
-  if code == 0 and signal == 0 then
-    return
-  end
-
-  v.notify(
-    string.format("LSP client '%s' crashed. (code: %s, signal: %s)", client.name, tostring(code), tostring(signal)),
-    v.log.levels.WARN
-  )
-
-  v.notify(string.format("Attempting to restart LSP client: %s", client.name), v.log.levels.INFO)
-
-  local new_client_id = v.lsp.start_client(client.config)
-  if new_client_id then
-    v.notify(string.format("LSP client '%s' has been restored.", client.name), v.log.levels.INFO)
-    -- Re-attach to the current buffer
-    v.lsp.buf_attach_client(0, new_client_id)
-  else
-    v.notify(string.format("Failed to restart LSP client: %s", client.name), v.log.levels.ERROR)
-  end
-end
-
-v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "ts_ls", "gopls", "zls" }, {
-  capabilities = capabilities,
-  on_exit = on_lsp_exit,
-})
+require("configuration.todo-comments")
+require("configuration.mini")
+require("configuration.persistence")
+require("configuration.oil")
+require("core.lsp")
 require("configuration.blink-cmp")
 require("configuration.conform")
 require("configuration.treesitter")
 require("configuration.gitsigns")
 require("configuration.toggleterm")
 require("configuration.fidget")
-require("configuration.alpha")
+require("configuration.lualine")
+
 require("configuration.telescope")
--- show lsp that is attached to buffer
-function _G.LspStatus()
-  local bufnr = v.api.nvim_get_current_buf()
-  local clients = v.lsp.get_clients({ bufnr = bufnr })
-  if #clients == 0 then
-    return ''
-  end
-
-  local icons = {
-    rust_analyzer = '',
-    go = '',
-    vtsls = '',
-    ts_ls = '',
-    lua_ls = '',
-    biome = '󰐅',
-    zls = '',
-  }
-
-  local names = {}
-  for _, c in ipairs(clients) do
-    local icon = icons[c.name] or ''
-    table.insert(names, icon .. ' ' .. c.name)
-  end
-  return table.concat(names, ', ')
-end
+require("configuration.tiny-inline-diagnostic")
+require("configuration.noice")
+require("configuration.suit")
 
 -- get current git branch
 function _G.GitBranch()
@@ -223,11 +123,7 @@ function _G.GitBranch()
 end
 
 -- Example if using statusline
-v.o.statusline = "%f %m %r %h %{%v:lua.GitBranch()%} %= %{%v:lua.LspStatus()%} %l:%c"
-
-require("tiny-inline-diagnostic").setup({
-  preset = "powerline"
-})
+-- v.o.statusline = "%f %m %r %h %{%v:lua.GitBranch()%} %= %{%v:lua.LspStatus()%} %l:%c"
 
 v.api.nvim_create_autocmd("BufEnter", {
   callback = function()

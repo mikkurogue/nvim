@@ -5,7 +5,7 @@ v.g.mapleader = " "
 v.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
 v.keymap.set('n', '<leader>w', ':write<CR>')
 v.keymap.set('n', '<leader>q', ':quit<CR>')
-v.keymap.set('n', '<leader>db', ':Alpha<CR>')
+
 v.keymap.set("n", "<Esc>", ":noh<CR>", {
   silent = true
 })
@@ -55,15 +55,8 @@ v.keymap.set("n", "K", v.lsp.buf.hover)
 v.keymap.set("n", "<C-k>", v.lsp.buf.signature_help)
 v.keymap.set("n", "<leader>rn", v.lsp.buf.rename)
 -- both leader ca and la for code action cause i use la but i should use ca
--- v.keymap.set("n", "<leader>ca", v.lsp.buf.code_action)
--- v.keymap.set("n", "<leader>la", v.lsp.buf.code_action)
-v.keymap.set("n", "<leader>la", function()
-  require("actions-preview").code_actions()
-end, {
-  noremap = true,
-  silent = true,
-  desc = "Code actions"
-})
+v.keymap.set("n", "<leader>la", v.lsp.buf.code_action)
+
 
 -- Helper function to close all listed buffers
 local function close_all_buffers()

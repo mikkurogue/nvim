@@ -34,6 +34,9 @@ v.pack.add({
   { src = "https://github.com/rcarriga/nvim-notify" },
   { src = "https://github.com/doums/suit.nvim" },
 })
+require("notify").setup({
+  background_colour = "#000000",
+})
 
 -- Add colorschemes
 v.pack.add({

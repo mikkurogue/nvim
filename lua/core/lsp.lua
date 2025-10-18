@@ -29,7 +29,7 @@ local function on_lsp_exit(code, signal, client_id)
   end
 end
 
-v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "ts_ls", "gopls", "zls" }, {
+v.lsp.enable({ "lua_ls", "biome", "rust_analyzer", "vtsls", "gopls", "zls" }, {
   capabilities = capabilities,
   on_exit = on_lsp_exit,
 })
@@ -59,3 +59,4 @@ function _G.LspStatus()
   end
   return table.concat(names, ', ')
 end
+

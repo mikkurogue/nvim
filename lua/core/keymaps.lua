@@ -30,6 +30,10 @@ v.keymap.set("n", "<leader>ff", function()
   require("telescope.builtin").find_files()
 end, { desc = "Find files" })
 
+v.keymap.set("n", "<leader>ff", function()
+  require('fff').find_files()
+end, { desc = "Find files" })
+
 -- format current buffer
 v.keymap.set("n", "<leader>lf", v.lsp.buf.format)
 v.keymap.set("n", "<leader>e", function()

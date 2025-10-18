@@ -51,6 +51,9 @@ v.pack.add({
   { src = "https://github.com/stevedylandev/darkmatter-nvim" },
 })
 
+
+require("configuration.fff")
+
 v.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
     local spec = ev.data.spec

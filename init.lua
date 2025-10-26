@@ -49,6 +49,8 @@ v.pack.add({
   { src = "https://github.com/EdenEast/nightfox.nvim" },
   { src = "https://github.com/tahayvr/matteblack.nvim" },
   { src = "https://github.com/stevedylandev/darkmatter-nvim" },
+  { src = "https://github.com/bjarneo/firesky.nvim" },
+  { src = "https://github.com/vyrx-dev/void.nvim" },
 })
 
 
@@ -77,9 +79,11 @@ v.api.nvim_create_autocmd("PackChanged", {
 
 local schemes = {
   "catppuccin",
+  "tokyonight",
+  "void",
+  "firesky",
   "rose-pine",
   "kanagawa",
-  "tokyonight",
   "nordic",
   "nightfox",
   "gruvbox",
@@ -88,13 +92,14 @@ local schemes = {
 }
 
 -- set colorscheme
-v.cmd("colorscheme " .. schemes[7])
+v.cmd("colorscheme " .. schemes[1])
 
 require("configuration.todo-comments")
 require("configuration.mini")
 require("configuration.persistence")
 require("configuration.oil")
 require("core.lsp")
+require("core.lsp-breadcrumbs")
 require("configuration.blink-cmp")
 require("configuration.conform")
 require("configuration.treesitter")

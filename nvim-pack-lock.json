@@ -40,6 +40,10 @@
       "rev": "3f54759",
       "src": "https://github.com/j-hui/fidget.nvim"
     },
+    "firesky.nvim": {
+      "rev": "e024e72",
+      "src": "https://github.com/bjarneo/firesky.nvim"
+    },
     "gitsigns.nvim": {
       "rev": "1ee5c1f",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
@@ -124,7 +128,10 @@
       "rev": "51eef57",
       "src": "https://github.com/folke/persistence.nvim"
     },
-    "plenary.nvim": [],
+    "plenary.nvim": {
+      "rev": "b9fd522",
+      "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
     "rose-pine": {
       "rev": "72a04c4",
       "src": "https://github.com/rose-pine/neovim"
@@ -133,7 +140,10 @@
       "rev": "81ce4cc",
       "src": "https://github.com/doums/suit.nvim"
     },
-    "telescope.nvim": [],
+    "telescope.nvim": {
+      "rev": "b4da76b",
+      "src": "https://github.com/nvim-telescope/telescope.nvim"
+    },
     "tiny-inline-diagnostic.nvim": {
       "rev": "6d8dc61",
       "src": "https://github.com/rachartier/tiny-inline-diagnostic.nvim"
@@ -153,6 +163,10 @@
     "trouble.nvim": {
       "rev": "c098362",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "void.nvim": {
+      "rev": "c8a565e",
+      "src": "https://github.com/vyrx-dev/void.nvim"
     },
     "zig.vim": {
       "rev": "0c10086",

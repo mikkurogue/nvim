@@ -92,7 +92,7 @@ local schemes = {
 }
 
 -- set colorscheme
-v.cmd("colorscheme " .. schemes[1])
+v.cmd("colorscheme " .. schemes[2])
 
 require("configuration.todo-comments")
 require("configuration.mini")

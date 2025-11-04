@@ -51,6 +51,7 @@ v.pack.add({
   { src = "https://github.com/stevedylandev/darkmatter-nvim" },
   { src = "https://github.com/bjarneo/firesky.nvim" },
   { src = "https://github.com/vyrx-dev/void.nvim" },
+  { src = "https://github.com/olimorris/onedarkpro.nvim" }
 })
 
 
@@ -77,9 +78,14 @@ v.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
+require("onedarkpro").setup({
+  theme = "onedark",
+})
+
 local schemes = {
   "catppuccin",
   "tokyonight",
+  "onedark",
   "void",
   "firesky",
   "rose-pine",
@@ -92,14 +98,14 @@ local schemes = {
 }
 
 -- set colorscheme
-v.cmd("colorscheme " .. schemes[2])
+v.cmd("colorscheme " .. schemes[3])
 
 require("configuration.todo-comments")
 require("configuration.mini")
 require("configuration.persistence")
 require("configuration.oil")
 require("core.lsp")
-require("core.lsp-breadcrumbs")
+-- require("core.lsp-breadcrumbs")
 require("configuration.blink-cmp")
 require("configuration.conform")
 require("configuration.treesitter")

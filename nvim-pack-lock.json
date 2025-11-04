@@ -124,6 +124,10 @@
       "rev": "919e155",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "onedarkpro.nvim": {
+      "rev": "eeac884",
+      "src": "https://github.com/olimorris/onedarkpro.nvim"
+    },
     "persistence.nvim": {
       "rev": "51eef57",
       "src": "https://github.com/folke/persistence.nvim"

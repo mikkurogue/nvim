@@ -1,4 +1,8 @@
 local v = vim
+
+-- temporarily disable the ruler
+v.o.ruler = false
+
 v.o.number = true
 v.o.relativenumber = true
 v.o.signcolumn = "yes"

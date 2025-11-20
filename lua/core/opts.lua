@@ -23,7 +23,7 @@ v.o.smartindent = true
 v.o.expandtab = true
 v.o.foldenable = true                            -- make sure folds are enabled
 v.o.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folding
-v.o.foldcolumn = "auto:1"
+v.o.foldcolumn = "0"
 v.o.foldmethod = "expr"                          -- folding, set to "expr" for treesitter based folding
 v.o.foldlevel = 99
 

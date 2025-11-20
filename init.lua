@@ -33,6 +33,7 @@ v.pack.add({
   { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://github.com/rcarriga/nvim-notify" },
   { src = "https://github.com/doums/suit.nvim" },
+  { src = "https://github.com/dmmulroy/ts-error-translator.nvim" }
 })
 require("notify").setup({
   background_colour = "#000000",
@@ -51,11 +52,19 @@ v.pack.add({
   { src = "https://github.com/stevedylandev/darkmatter-nvim" },
   { src = "https://github.com/bjarneo/firesky.nvim" },
   { src = "https://github.com/vyrx-dev/void.nvim" },
-  { src = "https://github.com/olimorris/onedarkpro.nvim" }
+  { src = "https://github.com/olimorris/onedarkpro.nvim" },
+  { src =  "https://github.com/IroncladDev/osmium"}
 })
 
 
 require("configuration.fff")
+require("ts-error-translator").setup({
+  auto_attach = true,
+  servers = {
+    "ts_ls",
+    "vtsls"
+  }
+})
 
 v.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
@@ -95,10 +104,17 @@ local schemes = {
   "gruvbox",
   "matteblack",
   "darkmatter",
+  "osmium",
 }
 
+require("osmium").setup({
+    transparent_bg = false, -- whether to use a transparent background
+    show_end_of_buffer = false, -- whether to show the end of buffer
+})
+
+
 -- set colorscheme
-v.cmd("colorscheme " .. schemes[3])
+v.cmd("colorscheme " .. schemes[13])
 
 require("configuration.todo-comments")
 require("configuration.mini")

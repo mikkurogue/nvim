@@ -32,7 +32,8 @@ v.pack.add({
   { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://github.com/rcarriga/nvim-notify" },
-  { src = "https://github.com/doums/suit.nvim" },
+  { src = "https://github.com/doums/suit.nvim" }, 
+  { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
   { src = "https://github.com/dmmulroy/ts-error-translator.nvim" }
 })
 require("notify").setup({
@@ -58,13 +59,13 @@ v.pack.add({
 
 
 require("configuration.fff")
-require("ts-error-translator").setup({
-  auto_attach = true,
-  servers = {
-    "ts_ls",
-    "vtsls"
-  }
-})
+-- require("ts-error-translator").setup({
+--   auto_attach = true,
+--   servers = {
+--     "ts_ls",
+--     "vtsls"
+--   }
+-- })
 
 v.api.nvim_create_autocmd("PackChanged", {
   callback = function(ev)
@@ -87,6 +88,8 @@ v.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
+require("ibl").setup()
+
 require("onedarkpro").setup({
   theme = "onedark",
 })
@@ -108,6 +111,11 @@ local schemes = {
 }
 
 require("osmium").setup({
+  integrations = {
+    gitsigns = true,
+    telescope = true, 
+        indent_blankline = true,
+  },
     transparent_bg = false, -- whether to use a transparent background
     show_end_of_buffer = false, -- whether to show the end of buffer
 })

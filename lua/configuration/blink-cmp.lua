@@ -42,7 +42,7 @@ require("blink.cmp").setup({
 			"snippet_forward", -- Try snippet forward
 			"fallback", -- Finally fallback to default behavior
 		},
-		["<leader>."] = { "show", "hide" },
+		["<C-.>"] = { "show", "hide" },
 	},
 	completion = {
 		list = {

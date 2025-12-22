@@ -35,8 +35,10 @@ v.pack.add({
   { src = "https://github.com/doums/suit.nvim" }, 
   { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
   { src = "https://github.com/dmmulroy/ts-error-translator.nvim" },
-  { src = "https://github.com/vyfor/cord.nvim" }
+  { src = "https://github.com/vyfor/cord.nvim" },
+  { src = "https://github.com/swaits/lazyjj.nvim" }
 })
+
 require("notify").setup({
   background_colour = "#000000",
 })
@@ -105,6 +107,9 @@ require("cord").setup({
   },
   idle = {
     enabled = false,
+  },
+  text = {
+    workspace = "",
   }
 })
 
@@ -162,6 +167,10 @@ require("configuration.telescope")
 require("configuration.tiny-inline-diagnostic")
 require("configuration.noice")
 require("configuration.suit")
+
+require('lazyjj').setup({
+  mapping = '<leader>jj',
+})
 
 -- get current git branch
 function _G.GitBranch()
